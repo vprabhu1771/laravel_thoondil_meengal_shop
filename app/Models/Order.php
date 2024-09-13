@@ -13,4 +13,15 @@ class Order extends Model
         'user_id',
         'total_price'   
     ];
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    public function calculateTotalPrice()
+    {
+        $this->total_price = $this->orderItems->sum('total_price');
+        $this->save();
+    }
 }
