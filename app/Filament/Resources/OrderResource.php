@@ -87,7 +87,8 @@ class OrderResource extends Resource
                             ->required()
                             ->numeric()
                             ->prefix('ரூ')
-                            ->disabled()
+                            // Changed from disabled to readOnly to allow form submission
+                            ->readOnly()
                             ->live(debounce:500)
                             ->afterStateUpdated(function(Set $set, Get $get){
                                 // self::updateOrderItemAmount($set, $get);
@@ -95,7 +96,8 @@ class OrderResource extends Resource
                             }),
                         Forms\Components\TextInput::make('sub_total')
                             ->required()
-                            ->disabled()
+                            // Changed from disabled to readOnly to allow form submission
+                            ->readOnly()
                             ->numeric(),
                     ])
                     ->columns(4)
