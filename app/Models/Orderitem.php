@@ -13,8 +13,8 @@ class Orderitem extends Model
         'order_id',
         'product_id',
         'qty',
-        'price',
-        'total_price'
+        'unit_price',
+        'sub_total'
 
     ];
 
@@ -34,7 +34,7 @@ class Orderitem extends Model
 
         // Automatically calculate total price based on price and quantity
         static::creating(function ($orderItem) {
-            $orderItem->total_price = $orderItem->price * $orderItem->qty;
+            $orderItem->sub_total = $orderItem->unit_price * $orderItem->qty;
         }
     );
 
