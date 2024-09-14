@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->integer('qty')->default(1);
-            $table->decimal('price', 10, 2); // Price of the individual item
-            $table->decimal('total_price', 10, 2); // Price * quantity
+            $table->decimal('unit_price', 10, 2); // Price of the individual item
+            $table->decimal('sub_total', 10, 2); // Price * quantity
             $table->timestamps();
         });
     }
