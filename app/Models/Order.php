@@ -11,8 +11,13 @@ class Order extends Model
 
     protected $fillable = [
         'user_id',
-        'total_price'   
+        'total_amount'   
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function orderItems()
     {
@@ -21,7 +26,7 @@ class Order extends Model
 
     public function calculateTotalPrice()
     {
-        $this->total_price = $this->orderItems->sum('total_price');
+        $this->total_amount = $this->orderItems->sum('sub_total');
         $this->save();
     }
 }
