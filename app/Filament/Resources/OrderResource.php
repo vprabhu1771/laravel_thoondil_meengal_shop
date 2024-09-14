@@ -35,7 +35,8 @@ class OrderResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('total_amount')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('ரூ'),
                 Forms\Components\Repeater::make('orderItems')
                     ->relationship()
                     // Repeatable field is live so that it will trigger the state update on each change
@@ -98,7 +99,8 @@ class OrderResource extends Resource
                             ->required()
                             // Changed from disabled to readOnly to allow form submission
                             ->readOnly()
-                            ->numeric(),
+                            ->numeric()
+                            ->prefix('ரூ'),
                     ])
                     ->columns(4)
                     ->columnSpanFull()
