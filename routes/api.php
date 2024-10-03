@@ -30,3 +30,15 @@ use App\Http\Controllers\api\v2\OrderController;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
 });
+
+
+use App\Http\Controllers\api\v2\CartController;
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/carts', [CartController::class, 'index']);
+    Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+    Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
+    Route::post('/increase-quantity', [CartController::class, 'increaseQuantity']);
+    Route::post('/decrease-quantity', [CartController::class, 'decreaseQuantity']);
+    Route::post('/clear-cart', [CartController::class, 'clearCart']);
+});
