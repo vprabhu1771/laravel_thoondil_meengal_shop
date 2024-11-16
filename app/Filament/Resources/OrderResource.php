@@ -132,6 +132,11 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Print')
+                    ->url(fn (Order $record): string => route('receipt.print', ['id' => $record->id]))
+                    ->openUrlInNewTab(),
+                    // ->url(fn (): string => route('receipt.print', ['id' => $this->post])),
+                    // ->url(fn (): string => route('receipt.print')),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
