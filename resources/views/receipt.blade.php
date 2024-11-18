@@ -16,7 +16,12 @@
         }
 
         .receipt-header {
-            font-size: 60px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .receipt-moto {
+            font-size: 20px;
             font-weight: bold;
         }
 
@@ -58,8 +63,15 @@
 <body>
     <div class="receipt-container" id="receipt">
         <div class="receipt-header">
-            {{ $title }}
+            {{ $title }}            
         </div>
+        
+        @if($moto)
+        <div class="receipt-moto">
+            {{ $moto }}
+        </div>
+        @endif        
+
         <div class="receipt-body">
             <table class="receipt-table">
                 <thead>

@@ -15,6 +15,7 @@ class ReceiptController extends Controller
 
         $data = [
             'title' => 'Thoondil Meengal',
+            'moto' => 'Feel the taste of fresh fish',
             'order' => $order
         ];
 
