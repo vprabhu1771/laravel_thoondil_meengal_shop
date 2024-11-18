@@ -115,6 +115,13 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('orderItems')
+                    ->label('Order Items')
+                    ->formatStateUsing(function ($record) {
+                        return $record->orderItems->map(function ($item) {
+                            return "{$item->product->name} ({$item->qty} x {$item->unit_price})";
+                        })->join(', ');
+                    }),
                 Tables\Columns\TextColumn::make('total_amount')
                     ->numeric()
                     ->sortable(),
