@@ -89,10 +89,11 @@ class OrderResource extends Resource
                             ->numeric()
                             ->prefix('ரூ')
                             // Changed from disabled to readOnly to allow form submission
-                            ->readOnly()
+                            // ->readOnly()
                             ->live(debounce:500)
                             ->afterStateUpdated(function(Set $set, Get $get){
-                                // self::updateOrderItemAmount($set, $get);
+                                // dd("wr");
+                                self::updateOrderItemAmount($set, $get);
                                 self::updateOrderTotal($set, $get);
                             }),
                         Forms\Components\TextInput::make('sub_total')
@@ -112,16 +113,26 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+                    // ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('orderItems')
+                    ->label('Order Items')
+                    ->formatStateUsing(function ($record) {
+                        return $record->orderItems->map(function ($item) {
+                            return "{$item->product->name} ({$item->qty} x {$item->unit_price})";
+                        })->join(', ');
+                    }),
                 Tables\Columns\TextColumn::make('total_amount')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),                
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

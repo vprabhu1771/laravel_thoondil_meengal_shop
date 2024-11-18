@@ -37,11 +37,11 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextInputColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->sortable()
-                    ->prefix('ரூ.'),
+                Tables\Columns\TextInputColumn::make('price')
+                    ->sortable(),
+                    // ->prefix('ரூ.'),
                 Tables\Columns\TextColumn::make('unit')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')

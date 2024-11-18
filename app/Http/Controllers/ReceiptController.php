@@ -14,7 +14,8 @@ class ReceiptController extends Controller
         $order = Order::find($id);        
 
         $data = [
-            'title' => 'Thoondil Meengal',
+            // 'title' => 'Thoondil Meengal',
+            'title' => 'தூண்டில் மீன்கள்',
             'moto' => 'Feel the taste of fresh fish',
             'order' => $order
         ];
