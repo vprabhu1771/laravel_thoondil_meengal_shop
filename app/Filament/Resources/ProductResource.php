@@ -39,9 +39,9 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->sortable()
-                    ->prefix('ரூ.'),
+                Tables\Columns\TextInputColumn::make('price')
+                    ->sortable(),
+                    // ->prefix('ரூ.'),
                 Tables\Columns\TextColumn::make('unit')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
