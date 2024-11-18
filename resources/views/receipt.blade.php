@@ -70,7 +70,9 @@
         <div class="receipt-moto">
             {{ $moto }}
         </div>
-        @endif        
+        @endif
+        
+        {{ $order->created_at->format('d-m-Y H:i:s') }}
 
         <div class="receipt-body">
             <table class="receipt-table">
