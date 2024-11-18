@@ -89,10 +89,11 @@ class OrderResource extends Resource
                             ->numeric()
                             ->prefix('ரூ')
                             // Changed from disabled to readOnly to allow form submission
-                            ->readOnly()
+                            // ->readOnly()
                             ->live(debounce:500)
                             ->afterStateUpdated(function(Set $set, Get $get){
-                                // self::updateOrderItemAmount($set, $get);
+                                // dd("wr");
+                                self::updateOrderItemAmount($set, $get);
                                 self::updateOrderTotal($set, $get);
                             }),
                         Forms\Components\TextInput::make('sub_total')
@@ -112,6 +113,13 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
+                    // ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
@@ -124,11 +132,7 @@ class OrderResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('total_amount')
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),                
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
