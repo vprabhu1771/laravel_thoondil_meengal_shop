@@ -81,6 +81,7 @@
                         <th>Item</th>
                         <th>Qty</th>
                         <th>Price</th>
+                        <th>Sub Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -89,6 +90,7 @@
                         <td>{{ $row->product->name }}</td>
                         <td>{{ $row->qty }}</td>
                         <td>{{ number_format($row->unit_price, 2) }}</td>
+                        <td>{{ number_format($row->getSubtotalAttribute(), 2) }}</td>
                     </tr>
                     @endforeach
                 </tbody>

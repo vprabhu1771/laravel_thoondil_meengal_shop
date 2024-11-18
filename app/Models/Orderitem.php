@@ -35,8 +35,16 @@ class OrderItem extends Model
         // Automatically calculate total price based on price and quantity
         static::creating(function ($orderItem) {
             $orderItem->sub_total = $orderItem->unit_price * $orderItem->qty;
-        }
-    );
+        });
+    }
 
+    /**
+     * Accessor for dynamically calculating the subtotal.
+     *
+     * @return float
+     */
+    public function getSubtotalAttribute()
+    {
+        return $this->unit_price * $this->qty;
     }
 }
