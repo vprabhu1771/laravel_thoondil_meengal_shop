@@ -17,7 +17,19 @@ class CartResource extends Resource
 {
     protected static ?string $model = Cart::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+// Giving an icon NAv bar
+
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+
+    protected static ?string $navigationGroup = 'Evening Hotel';
+
+// Giving name in side NAv bar
+
+    protected static ?string $navigationLabel = 'Cart';
+
+// To arrane in order - NAv bar
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

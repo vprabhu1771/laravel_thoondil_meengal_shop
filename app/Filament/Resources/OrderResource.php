@@ -24,7 +24,19 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+// Giving an icon NAv bar
+
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+
+    protected static ?string $navigationGroup = 'Evening Hotel';
+
+// Giving name in side NAv bar
+
+    protected static ?string $navigationLabel = 'Customer Orders';
+
+// To arrane in order - NAv bar
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -142,8 +154,9 @@ class OrderResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('Print'),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\Action::make('Print')
+                Tables\Actions\DeleteAction::make()
                     ->url(fn (Order $record): string => route('receipt.print', ['id' => $record->id]))
                     ->openUrlInNewTab(),
                     // ->url(fn (): string => route('receipt.print', ['id' => $this->post])),

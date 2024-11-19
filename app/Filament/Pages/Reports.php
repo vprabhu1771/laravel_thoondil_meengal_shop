@@ -11,7 +11,19 @@ use App\Models\OrderItem;
 
 class Reports extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+// Giving an icon NAv bar
+
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
+
+    protected static ?string $navigationGroup = 'Evening Hotel';
+
+// Giving name in side NAv bar
+
+    protected static ?string $navigationLabel = 'Settlement Report';
+
+// To arrane in order - NAv bar
+
+    protected static ?int $navigationSort = 4;
 
     protected static string $view = 'filament.pages.reports';
     

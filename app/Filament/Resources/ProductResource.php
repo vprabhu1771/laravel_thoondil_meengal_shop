@@ -17,7 +17,19 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+// Giving an icon NAv bar
+
+    protected static ?string $navigationIcon = 'heroicon-o-folder-plus';
+
+    protected static ?string $navigationGroup = 'Evening Hotel';
+
+// Giving name in side NAv bar
+
+    protected static ?string $navigationLabel = 'Hotel Menus';
+
+// To arrane in order - NAv bar
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
