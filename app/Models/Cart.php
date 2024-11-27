@@ -4,38 +4,45 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Cart extends Model
 {
     use HasFactory;
-
-    protected $table = 'carts';
-
-    protected $fillable = [
-        'user_id',
+    protected $fillable =[
+        'customer_id',
         'product_id',
         'qty',
     ];
 
-    public function customer() 
+    public function customer()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'customer_id');
     }
 
-    public function product() 
+    public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 
     public function totalPrice()
     {
-        return $this->qty * $this->product->price;
+        return $this->qty = $this->product->price;
     }
 
-    public static function grandTotal($customId)
+    // public function grandTotal($customerId)
+    // {
+    //    $cartItems = Cart::where('customer_id',$customerId)->get();
+       
+    //    $total = $cartItemms->sum(function($item){
+    //     return $item->totalPrice();
+    //    });
+
+    //    return $total;
+    // }
+    
+    public static function grandTotal($customerId)
     {
-        $cartItems = Cart::where('user_id', $customId)->get();
+        $cartItems = Cart::where('customer_id', $customerId)->get();
         $total = $cartItems->sum(function ($item) {
             return $item->totalPrice();
         });
