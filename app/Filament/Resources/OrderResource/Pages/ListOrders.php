@@ -14,6 +14,9 @@ class ListOrders extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\Action::make("Spreed Sheet")
+                ->url("https://docs.google.com/spreadsheets/d/1eFa23-jN54XADxUpkBbh0E6kQwHZhr4c83oc9HF_Rh4/edit?gid=233517632#gid=233517632")
+                ->openUrlInNewTab(),
         ];
     }
 }
