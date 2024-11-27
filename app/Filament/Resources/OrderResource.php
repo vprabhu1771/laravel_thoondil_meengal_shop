@@ -155,7 +155,20 @@ class OrderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->action(function (array $data, Order $record): void {
+                        // dump($record->orderItems);
+
+                        // Delete order items associated with the order
+                        $record->orderItems()->delete();
+
+                        // Delete Order History
+                        // $record->history()->delete();
+
+                        // Delete the order
+                        $record->delete();
+                    }),
                 Tables\Actions\Action::make('Print')
                     ->url(fn (Order $record): string => route('receipt.print', ['id' => $record->id]))
                     ->openUrlInNewTab(),
