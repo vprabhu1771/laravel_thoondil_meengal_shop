@@ -18,6 +18,7 @@ class ProductController extends Controller
 
         $transformedProducts = $products->map(function($product){
             return[
+                'id' => $product->id,
                 'name' => $product->name,
                 'price' => $product->price,
                 'unit' => $product->unit
