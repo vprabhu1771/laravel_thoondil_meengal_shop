@@ -1,7 +1,17 @@
-
 <x-filament::page>
     <div class="p-6">
         <h2 class="text-2xl font-bold">Sales Report</h2>
+        
+        <div class="mt-4">
+            <label for="user" class="block text-sm font-medium text-gray-700">Filter by User</label>
+            <select id="user" wire:model="selectedUser" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">All Users</option>
+                @foreach ($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        
         <p class="mt-4 text-lg">Total Sales: <strong>{{ number_format($totalSales, 2) }}</strong></p>
     </div>
 
