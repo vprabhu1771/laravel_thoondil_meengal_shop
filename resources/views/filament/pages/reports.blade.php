@@ -3,11 +3,11 @@
         <h2 class="text-2xl font-bold">Sales Report</h2>
         
         <div class="mt-4">
-            <label for="user" class="block text-sm font-medium text-gray-700">Filter by User</label>
-            <select id="user" wire:model="selectedUser" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                <option value="">All Users</option>
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+            <label for="timing" class="block text-sm font-medium text-gray-700">Filter by Timing</label>
+            <select id="timing" wire:model="selectedTiming" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">All Timings</option>
+                @foreach ($timings as $timing)
+                    <option value="{{ $timing }}">{{ $timing }}</option>
                 @endforeach
             </select>
         </div>
@@ -46,3 +46,4 @@
         </div>
     </div>
 </x-filament::page>
+@livewireScripts
