@@ -9,6 +9,8 @@ use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\OrderItem;
 
+use App\Models\User;
+
 class Reports extends Page
 {
 // Giving an icon NAv bar
@@ -31,13 +33,39 @@ class Reports extends Page
 
     public $productOrders;
 
+    public $selectedUser;
+    public $users;
+
     public function mount()
     {
-        $this->totalSales = Order::sum('total_amount');
+        $this->users = User::all(); // Fetch all users for the dropdown
+        $this->selectedUser = null; // Default to no user selected
+        $this->fetchData();
+    }
+
+    public function updatedSelectedUser($value)
+    {
+        $this->fetchData(); // Fetch data when user selection changes
+    }
+    
+    private function fetchData()
+    {
+        $query = Order::query();
+
+        if ($this->selectedUser) {
+            $query->where('user_id', $this->selectedUser);
+        }
+
+        $this->totalSales = $query->sum('total_amount');
 
         $this->productOrders = OrderItem::with('product')
             ->select('product_id')
             ->selectRaw('SUM(qty) as total_quantity, SUM(qty * unit_price) as total_amount')
+            ->when($this->selectedUser, function ($query) {
+                $query->whereHas('order', function ($orderQuery) {
+                    $orderQuery->where('user_id', $this->selectedUser);
+                });
+            })
             ->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
             ->groupBy('product_id')
             ->get();
