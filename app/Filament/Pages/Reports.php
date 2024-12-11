@@ -14,10 +14,17 @@ class Reports extends Page
 {
     use Forms\Concerns\InteractsWithForms;
 
+    // Giving an icon NAv bar
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
-    protected static ?string $navigationGroup = 'Evening Hotel';
+
+    protected static ?string $navigationGroup = 'Hotel Shop';
+
+    // Giving name in side NAv bar
     protected static ?string $navigationLabel = 'Settlement Report';
+
+    // To arrane in order - NAv bar
     protected static ?int $navigationSort = 4;
+
     protected static string $view = 'filament.pages.reports';
 
     public $totalSales;
