@@ -3,14 +3,17 @@
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
+use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\User;
 use App\Enums\Timing;
 
 class Reports extends Page
 {
+    use Forms\Concerns\InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
     protected static ?string $navigationGroup = 'Evening Hotel';
     protected static ?string $navigationLabel = 'Settlement Report';
@@ -22,25 +25,24 @@ class Reports extends Page
     public $selectedTiming;
     public $timings;
 
-    public function mount()
+    public function mount(): void
     {
-        $this->timings = Timing::getValues(); // Get all available timings
-        $this->selectedTiming = null; // Default to no timing selected
+        $this->timings = Timing::getValues();
+        $this->selectedTiming = null;
+        $this->form->fill(['selectedTiming' => $this->selectedTiming]);
         $this->fetchData();
-        logger()->info('Selected Timing:', [$this->selectedTiming]);
     }
 
-    public function updatedSelectedTiming($value)
-    {        
-        logger()->info('Updated Selected Timing:', [$this->selectedTiming]);
-        $this->fetchData(); // Fetch data when timing selection changes
+    public function updatedSelectedTiming($value): void
+    {
+        $this->selectedTiming = $value;
+        $this->fetchData();
     }
 
-    private function fetchData()
+    private function fetchData(): void
     {
         $query = Order::query();
 
-        // Apply timing filter
         if ($this->selectedTiming) {
             $query->where('timings', $this->selectedTiming);
         }
@@ -61,4 +63,16 @@ class Reports extends Page
             ->groupBy('product_id')
             ->get();
     }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            Forms\Components\Select::make('selectedTiming')
+                ->label('Select Timing')
+                ->options(array_combine($this->timings, $this->timings))
+                ->reactive()
+                ->afterStateUpdated(fn ($state) => $this->updatedSelectedTiming($state)),
+        ];
+    }
 }
+
