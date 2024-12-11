@@ -20,6 +20,8 @@ use Filament\Forms\Set;
 
 use Filament\Forms\Components\Actions\Action;
 
+use App\Enums\Timing;
+
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
@@ -28,7 +30,7 @@ class OrderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
-    protected static ?string $navigationGroup = 'Evening Hotel';
+    protected static ?string $navigationGroup = 'Hotel Shop';
 
 // Giving name in side NAv bar
 
@@ -44,6 +46,10 @@ class OrderResource extends Resource
             ->schema([
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
+                    ->required(),
+                Forms\Components\Select::make('timings')
+                    ->options(Timing::class)
+                    ->default(Timing::Evening->value)
                     ->required(),
                 Forms\Components\TextInput::make('total_amount')
                     ->required()
@@ -133,6 +139,9 @@ class OrderResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('timings.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('orderItems')

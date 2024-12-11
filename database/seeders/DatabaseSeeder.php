@@ -20,25 +20,25 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'admin',
+            'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('admin'),
         ]);
 
         User::factory()->create([
-            'name' => 'morning',
+            'name' => 'Thanikachalam',
             'email' => 'morning@gmail.com',
             'password' => Hash::make('admin'),
         ]);
 
         User::factory()->create([
-            'name' => 'afternoon',
+            'name' => 'Niranjan',
             'email' => 'afternoon@gmail.com',
             'password' => Hash::make('admin'),
         ]);
 
         User::factory()->create([
-            'name' => 'evening',
+            'name' => 'Rithika',
             'email' => 'evening@gmail.com',
             'password' => Hash::make('admin'),
         ]);

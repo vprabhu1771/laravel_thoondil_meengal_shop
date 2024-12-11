@@ -21,7 +21,7 @@ class CartResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static ?string $navigationGroup = 'Evening Hotel';
+    protected static ?string $navigationGroup = 'Hotel Shop';
 
 // Giving name in side NAv bar
 

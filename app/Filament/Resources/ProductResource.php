@@ -21,9 +21,11 @@ class ProductResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder-plus';
 
-    protected static ?string $navigationGroup = 'Evening Hotel';
+    protected static ?string $navigationGroup = 'Hotel Shop';
 
 // Giving name in side NAv bar
+
+
 
     protected static ?string $navigationLabel = 'Hotel Menus';
 
