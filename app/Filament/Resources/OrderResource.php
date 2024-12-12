@@ -141,7 +141,7 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('timings.name')
+                Tables\Columns\TextColumn::make('timings')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('orderItems')
