@@ -75,7 +75,10 @@ class Reports extends Page
         }
 
         if ($this->startDate && $this->endDate) {
-            $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+            $query->whereBetween('created_at', [
+                Carbon::parse($this->startDate)->startOfDay(), // Normalize startDate
+                Carbon::parse($this->endDate)->endOfDay(),     // Normalize endDate
+            ]);
         }
 
         $this->totalSales = $query->sum('total_amount');
@@ -84,7 +87,10 @@ class Reports extends Page
             ->select('product_id')
             ->selectRaw('SUM(qty) as total_quantity, SUM(qty * unit_price) as total_amount')
             ->whereHas('order', function ($orderQuery) {
-                $orderQuery->whereBetween('created_at', [$this->startDate, $this->endDate]);
+                $orderQuery->whereBetween('created_at', [
+                    Carbon::parse($this->startDate)->startOfDay(),
+                    Carbon::parse($this->endDate)->endOfDay(),
+                ]);
             })
             ->when($this->selectedTiming, function ($query) {
                 $query->whereHas('order', function ($orderQuery) {
@@ -109,11 +115,13 @@ class Reports extends Page
                     Forms\Components\DatePicker::make('startDate')
                         ->label('Start Date')
                         ->reactive()
+                        ->displayFormat('d/m/Y') // Set display format to dd/mm/yyyy
                         ->afterStateUpdated(fn ($state) => $this->updatedStartDate($state)),
 
                     Forms\Components\DatePicker::make('endDate')
                         ->label('End Date')
                         ->reactive()
+                        ->displayFormat('d/m/Y') // Set display format to dd/mm/yyyy
                         ->afterStateUpdated(fn ($state) => $this->updatedEndDate($state)),
                 ]),
         ];
