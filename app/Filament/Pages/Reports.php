@@ -31,18 +31,38 @@ class Reports extends Page
     public $productOrders;
     public $selectedTiming;
     public $timings;
+    public $startDate;
+    public $endDate;
 
     public function mount(): void
     {
         $this->timings = Timing::getValues();
         $this->selectedTiming = null;
-        $this->form->fill(['selectedTiming' => $this->selectedTiming]);
+        $this->startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $this->endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        $this->form->fill([
+            'selectedTiming' => $this->selectedTiming,
+            'startDate' => $this->startDate,
+            'endDate' => $this->endDate,
+        ]);
         $this->fetchData();
     }
 
     public function updatedSelectedTiming($value): void
     {
         $this->selectedTiming = $value;
+        $this->fetchData();
+    }
+
+    public function updatedStartDate($value): void
+    {
+        $this->startDate = $value;
+        $this->fetchData();
+    }
+
+    public function updatedEndDate($value): void
+    {
+        $this->endDate = $value;
         $this->fetchData();
     }
 
@@ -54,13 +74,17 @@ class Reports extends Page
             $query->where('timings', $this->selectedTiming);
         }
 
+        if ($this->startDate && $this->endDate) {
+            $query->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        }
+
         $this->totalSales = $query->sum('total_amount');
 
         $this->productOrders = OrderItem::with('product')
             ->select('product_id')
             ->selectRaw('SUM(qty) as total_quantity, SUM(qty * unit_price) as total_amount')
             ->whereHas('order', function ($orderQuery) {
-                $orderQuery->whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+                $orderQuery->whereBetween('created_at', [$this->startDate, $this->endDate]);
             })
             ->when($this->selectedTiming, function ($query) {
                 $query->whereHas('order', function ($orderQuery) {
@@ -79,6 +103,14 @@ class Reports extends Page
                 ->options(array_combine($this->timings, $this->timings))
                 ->reactive()
                 ->afterStateUpdated(fn ($state) => $this->updatedSelectedTiming($state)),
+            Forms\Components\DatePicker::make('startDate')
+                ->label('Start Date')
+                ->reactive()
+                ->afterStateUpdated(fn ($state) => $this->updatedStartDate($state)),
+            Forms\Components\DatePicker::make('endDate')
+                ->label('End Date')
+                ->reactive()
+                ->afterStateUpdated(fn ($state) => $this->updatedEndDate($state)),
         ];
     }
 }
