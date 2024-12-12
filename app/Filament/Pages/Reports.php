@@ -98,20 +98,26 @@ class Reports extends Page
     protected function getFormSchema(): array
     {
         return [
-            Forms\Components\Select::make('selectedTiming')
-                ->label('Select Timing')
-                ->options(array_combine($this->timings, $this->timings))
-                ->reactive()
-                ->afterStateUpdated(fn ($state) => $this->updatedSelectedTiming($state)),
-            Forms\Components\DatePicker::make('startDate')
-                ->label('Start Date')
-                ->reactive()
-                ->afterStateUpdated(fn ($state) => $this->updatedStartDate($state)),
-            Forms\Components\DatePicker::make('endDate')
-                ->label('End Date')
-                ->reactive()
-                ->afterStateUpdated(fn ($state) => $this->updatedEndDate($state)),
+            Forms\Components\Grid::make(3) // Arrange the fields in 3 columns
+                ->schema([
+                    Forms\Components\Select::make('selectedTiming')
+                        ->label('Select Timing')
+                        ->options(array_combine($this->timings, $this->timings))
+                        ->reactive()
+                        ->afterStateUpdated(fn ($state) => $this->updatedSelectedTiming($state)),
+
+                    Forms\Components\DatePicker::make('startDate')
+                        ->label('Start Date')
+                        ->reactive()
+                        ->afterStateUpdated(fn ($state) => $this->updatedStartDate($state)),
+
+                    Forms\Components\DatePicker::make('endDate')
+                        ->label('End Date')
+                        ->reactive()
+                        ->afterStateUpdated(fn ($state) => $this->updatedEndDate($state)),
+                ]),
         ];
     }
+
 }
 
