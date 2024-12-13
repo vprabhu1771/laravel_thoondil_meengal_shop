@@ -35,12 +35,16 @@ class CartResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('product_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('customer_id')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('customer', 'name')
+                    ->required(),
+                Forms\Components\Select::make('product_id')
+                    ->preload()
+                    ->searchable()
+                    ->relationship('product', 'name')
+                    ->required(),                    
                 Forms\Components\TextInput::make('qty')
                     ->required(),
             ]);
@@ -50,14 +54,24 @@ class CartResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user')
+                Tables\Columns\TextColumn::make('customer.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('product_id')
+                Tables\Columns\TextColumn::make('product.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('qty')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('product.price')
+                    ->label('Unit Price')
+                    ->prefix('ரூ ')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('subtotal')
+                    ->label('Subtotal')
+                    ->getStateUsing(fn ($record) => $record->qty * $record->product->price)
+                    ->numeric()
+                    ->prefix('ரூ ')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
