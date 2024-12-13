@@ -115,13 +115,17 @@ class Reports extends Page
                     Forms\Components\DatePicker::make('startDate')
                         ->label('Start Date')
                         ->reactive()
-                        ->displayFormat('d/m/Y') // Set display format to dd/mm/yyyy
+                        ->displayFormat('d-m-Y') // Set display format to dd/mm/yyyy
+                        ->placeholder('dd-mm-yyyy')
+                        ->native(false) 
                         ->afterStateUpdated(fn ($state) => $this->updatedStartDate($state)),
 
                     Forms\Components\DatePicker::make('endDate')
                         ->label('End Date')
                         ->reactive()
-                        ->displayFormat('d/m/Y') // Set display format to dd/mm/yyyy
+                        ->displayFormat('d-m-Y') // Set display format to dd/mm/yyyy
+                        ->placeholder('dd-mm-yyyy')
+                        ->native(false) 
                         ->afterStateUpdated(fn ($state) => $this->updatedEndDate($state)),
                 ]),
         ];
