@@ -95,35 +95,10 @@ class AuthController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function getUser(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Auth $auth)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Auth $auth)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Auth $auth)
-    {
-        //
+        $user = $request->user();
+        $user->photo_path = url('/storage/' .$user->photo_path);
+        return $user;
     }
 }
