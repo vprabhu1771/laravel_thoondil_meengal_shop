@@ -53,4 +53,9 @@ class User extends Authenticatable
     public function getAvatarAttribute() {
         return "https://gravatar.com/avatar/" . md5( strtolower( trim( $this-> email) ) );
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(Cart::class, 'customer_id');
+    }
 }
