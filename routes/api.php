@@ -28,7 +28,11 @@ Route::get('/products', [ProductController::class, 'index']);
 use App\Http\Controllers\api\v2\OrderController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
     Route::get('/orders', [OrderController::class, 'index']);
+
+    Route::post('/order/confirm', [OrderController::class, 'store']);
+    
 });
 
 
