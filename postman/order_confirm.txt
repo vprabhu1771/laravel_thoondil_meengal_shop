@@ -1,0 +1,54 @@
+POST -> http://192.168.1.211:8000/api/order/confirm
+
+body -> raw -> JSON
+
+{
+  "order_items": [
+    {
+      "product_id": 1,
+      "qty": 2,
+      "unit_price": 20
+    },
+    {
+      "product_id": 2,
+      "qty": 1,
+      "unit_price": 120
+    }
+  ],
+  "payment_method": "CASH"
+}
+
+
+Response
+
+{
+    "data": {
+        "user_id": 1,
+        "total_amount": 160,
+        "updated_at": "2024-12-25T14:15:21.000000Z",
+        "created_at": "2024-12-25T14:15:21.000000Z",
+        "id": 15,
+        "order_items": [
+            {
+                "id": 24,
+                "order_id": 15,
+                "product_id": 1,
+                "qty": 2,
+                "unit_price": "20.00",
+                "sub_total": "40.00",
+                "created_at": "2024-12-25T14:15:21.000000Z",
+                "updated_at": "2024-12-25T14:15:21.000000Z"
+            },
+            {
+                "id": 25,
+                "order_id": 15,
+                "product_id": 2,
+                "qty": 1,
+                "unit_price": "120.00",
+                "sub_total": "120.00",
+                "created_at": "2024-12-25T14:15:21.000000Z",
+                "updated_at": "2024-12-25T14:15:21.000000Z"
+            }
+        ]
+    }
+}
