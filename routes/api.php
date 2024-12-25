@@ -46,3 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/decrease-quantity', [CartController::class, 'decreaseQuantity']);
     Route::post('/clear-cart', [CartController::class, 'clearCart']);
 });
+
+
+use App\Http\Controllers\ReceiptController;
+
+Route::get('/receipt/{id}', [ReceiptController::class, 'printReceipt'])->name('receipt.print');
