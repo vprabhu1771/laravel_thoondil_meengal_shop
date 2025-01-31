@@ -1,0 +1,9 @@
+POST -> http://192.168.1.211:8000/api/login
+
+Body -> raw -> JSON
+
+{
+    "email": "admin@gmail.com",
+    "password": "admin",
+    "device_name": "mobile"
+}
