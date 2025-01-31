@@ -24,41 +24,58 @@ class OrderController extends Controller
             $customer_id = $user->id;
 
             // Query the database to get the count of orders grouped by timings
-            $timingCounts = Order::select('timings', DB::raw('COUNT(*) as count'))
-                ->where('user_id', $customer_id)
-                ->groupBy('timings')
-                ->get()
-                ->keyBy('timings');
+            // $timingCounts = Order::select('timings', DB::raw('COUNT(*) as count'))
+            //     ->where('user_id', $customer_id)
+            //     ->groupBy('timings')
+            //     ->get()
+            //     ->keyBy('timings');
 
             // Format the timing counts with defaults for missing values
-            $timingData = [
-                'All'       => $timingCounts->sum('count'), // Total of all timings
-                'Morning'   => $timingCounts['Morning']->count ?? 0,
-                'Afternoon' => $timingCounts['Afternoon']->count ?? 0,
-                'Evening'   => $timingCounts['Evening']->count ?? 0,
-            ];
+            // $timingData = [
+            //     'All'       => $timingCounts->sum('count'), // Total of all timings
+            //     'Morning'   => $timingCounts['Morning']->count ?? 0,
+            //     'Afternoon' => $timingCounts['Afternoon']->count ?? 0,
+            //     'Evening'   => $timingCounts['Evening']->count ?? 0,
+            // ];
 
             // Fetch all orders for the user
             $orders = Order::where('user_id', $customer_id)
                 ->orderBy('id', 'asc')
+                ->with('orderItems')  // Eager load the orderItems relationship
                 ->get();
 
-            $transformedOrders = $orders->map(function($row){
-        
-                return[
+            // Initialize an array to hold timing counts
+            $timingData = [
+                'All' => $orders->count(),
+                'Morning' => $orders->where('timings', 'Morning')->count(),
+                'Afternoon' => $orders->where('timings', 'Afternoon')->count(),
+                'Evening' => $orders->where('timings', 'Evening')->count(),
+            ];
+
+            // Transform the orders
+            $transformedOrders = $orders->map(function($row) {
+                return [
                     'id' => $row->id,
-                    'customer_name' => $row->user->name,
+                    'customer_name' => $row->user->name,  // Assuming the user has a 'name' attribute
                     'timings' => $row->timings,
                     'total_amount' => $row->total_amount,
-                    'created_at' => $row->created_at,
-                    'updated_at' => $row->updated_at
+                    'created_at' => $row->created_at->toISOString(),
+                    'updated_at' => $row->updated_at->toISOString(),
+                    'order_items' => $row->orderItems->map(function($item) {
+                        return [
+                            'product_name' => $item->product->name,
+                            'qty' => $item->qty,
+                            'unit_price' => $item->unit_price,
+                            'sub_total' => $item->sub_total,
+                        ];
+                    }),
                 ];
             });
 
             // Return a response with timing counts and the orders
             return response()->json([
                 'timing_counts' => $timingData,
-                'data'        => $transformedOrders,
+                'data' => $transformedOrders,
             ], 200);
 
         } catch (\Exception $e) {
