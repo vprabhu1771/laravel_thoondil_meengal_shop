@@ -51,3 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 use App\Http\Controllers\ReceiptController;
 
 Route::get('/receipt/{id}', [ReceiptController::class, 'printReceipt'])->name('receipt.print');
+
+use App\Http\Controllers\api\v2\BluetoothThermalReceiptController;
+
+Route::get('/bluetooth/receipt/{id}', [BluetoothThermalReceiptController::class, 'printReceipt'])->name('receipt.bluetooth.print');
