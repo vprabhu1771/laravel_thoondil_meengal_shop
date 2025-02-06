@@ -55,3 +55,8 @@ Route::get('/receipt/{id}', [ReceiptController::class, 'printReceipt'])->name('r
 use App\Http\Controllers\api\v2\BluetoothThermalReceiptController;
 
 Route::get('/bluetooth/receipt/{id}', [BluetoothThermalReceiptController::class, 'printReceipt'])->name('receipt.bluetooth.print');
+
+
+use App\Http\Controllers\api\v2\ReportController;
+
+Route::post('reports', [ReportController::class, 'getReport']);
