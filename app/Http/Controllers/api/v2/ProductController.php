@@ -41,7 +41,14 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return response()->json([
+            'data' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'unit' => $product->unit,
+            ]
+        ], 200);
     }
 
     /**
@@ -49,9 +56,37 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
-    }
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'nullable|numeric|min:0',
+                'unit' => 'nullable|string|max:50',
+            ]);
 
+            $product->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'unit' => $request->unit,
+            ]);
+
+            return response()->json([
+                'message' => 'Product updated successfully',
+                'data' => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'unit' => $product->unit,
+                ]
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to update product',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    
     /**
      * Remove the specified resource from storage.
      */

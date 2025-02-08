@@ -25,6 +25,14 @@ use App\Http\Controllers\api\v2\ProductController;
 
 Route::get('/products', [ProductController::class, 'index']);
 
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::get('/products/{product}', [ProductController::class, 'show']);
+    
+    Route::put('/products/{product}', [ProductController::class, 'update']);
+
+});
+
 use App\Http\Controllers\api\v2\OrderController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
