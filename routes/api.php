@@ -40,7 +40,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index']);
 
     Route::post('/order/confirm', [OrderController::class, 'store']);
-    
+
+    Route::delete('/orders/{order}', [OrderController::class, 'destroy']); // DELETE Order Route
 });
 
 

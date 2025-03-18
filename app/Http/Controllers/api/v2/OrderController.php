@@ -173,6 +173,22 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+            // Delete all order items related to the order
+            $order->orderItems()->delete();
+
+            // Delete the order itself
+            $order->delete();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Order deleted successfully'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Failed to delete order', 'message' => $e->getMessage()], 500);
+        }
     }
+
 }
