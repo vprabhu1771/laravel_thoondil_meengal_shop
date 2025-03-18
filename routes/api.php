@@ -27,9 +27,13 @@ Route::get('/products', [ProductController::class, 'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
 
+    Route::post('/products', [ProductController::class, 'store']); // Create a new product
+
     Route::get('/products/{product}', [ProductController::class, 'show']);
     
     Route::put('/products/{product}', [ProductController::class, 'update']);
+
+    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 
 });
 

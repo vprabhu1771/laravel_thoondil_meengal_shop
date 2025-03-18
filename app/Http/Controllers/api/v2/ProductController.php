@@ -33,7 +33,35 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'price' => 'nullable|numeric|min:0',
+                'unit' => 'nullable|string|max:50',
+            ]);
+
+            $product = Product::create([
+                'name' => $request->name,
+                'price' => $request->price,
+                'unit' => $request->unit,
+            ]);
+
+            return response()->json([
+                'message' => 'Product created successfully',
+                'data' => [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'unit' => $product->unit,
+                ]
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to create product',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -92,6 +120,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            $product->delete();
+            return response()->json(['message' => 'Product deleted successfully'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to delete product'], 500);
+        }
     }
 }
