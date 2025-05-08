@@ -32,6 +32,8 @@ class CartController extends Controller
         // Retrieve the product and user information from the JSON request body             
         // $carts = Cart::all();
         $carts = Cart::with('product')->where('customer_id', $customer_id)->get();
+        
+        // dd($carts);
 
         // Transform the data to include the full URL for the image_path
         $transformedCarts = $carts->map(function ($row) {
